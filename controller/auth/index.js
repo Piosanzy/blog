@@ -38,7 +38,7 @@ const authApi = () => {
                 message: error.message
             }
         }
-
+        
         try {
             const findUser = await User.findOneByUsername(email);
             const createUser = await create(findUser);
