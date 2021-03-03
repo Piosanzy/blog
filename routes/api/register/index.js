@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const authApiController = require('../../../controller/auth/index');
+const authMiddleware = require('../../../middlewares/auth/index');
 
 router.post('/signup', async function (req, res, next) {
 
@@ -25,11 +26,9 @@ router.post('/login', async function (req,res,next){
     res.json(data);
 });
 
-router.get('/check',async function (req,res,next) {
-    const token =req.headers['x-access-token'];
-    const data = await authApiController.check(token,req.app);
+router.get('/check', authMiddleware , async function (req,res,next) {
 
-    res.json(data);
+    res.json({info:req.decoded});
 })
 
 module.exports = router;
