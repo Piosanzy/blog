@@ -2,14 +2,27 @@
 <html>
 <head>
     <title>LT.Blog</title>
-    <link rel='stylesheet' href='/stylesheets/design.css' />
-    <link rel='stylesheet' href='/bootstrap/css/bootstrap.css' />
+    <link rel='stylesheet' href='/stylesheets/design.css'/>
+    <link rel='stylesheet' href='/bootstrap/css/bootstrap.css'/>
 </head>
 <body>
 <div class="header">
-
+    <a id="register"></a>
 </div>
 
 <script src="/jquery/jquery.js"></script>
+<script src="/js-cookie/src/js.cookie.js"></script>
+
+<script>
+    $(document).ready(function () {
+        if(Cookies.get('x-access-token')){
+            $('#register').attr('href','/api/register/logout');
+            $('#register').text('로그아웃');
+        }else{
+            $('#register').attr('href','/login');
+            $('#register').text('로그인');
+        }
+    })
+</script>
 </body>
 </html>

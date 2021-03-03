@@ -28,6 +28,7 @@ const authApi = () => {
 
         const respond = (isAdmin) => {
             return {
+                result:200,
                 message: 'registered successfully',
                 admin: isAdmin ? true : false
             }
@@ -35,6 +36,7 @@ const authApi = () => {
 
         const onError = (error) => {
             return {
+                result:500,
                 message: error.message
             }
         }
@@ -68,8 +70,11 @@ const authApi = () => {
                         jwt.sign(
                             {
                                 _id: user._id,
-                                username: user.username,
-                                admin: user.admin
+                                email: user.email,
+                                name:user.name,
+                                password:user.password,
+                                admin: user.admin,
+                                createAt:user.createAt,
                             },
                             secret,
                             {
@@ -90,6 +95,7 @@ const authApi = () => {
 
         const respond = (token) => {
             return {
+                result:200,
                 message: 'logged in successfully',
                 token
             }
@@ -97,14 +103,15 @@ const authApi = () => {
 
         const onError = (error) => {
             return {
+                result:500,
                 message: error.message
             }
         }
 
         try {
             const findUser = await User.findOneByUsername(email);
-            const checkUser = await check(findUser);
-            const data = await respond(checkUser);
+            const token = await check(findUser);
+            const data = await respond(token);
 
             return data;
         } catch (e) {
@@ -113,54 +120,9 @@ const authApi = () => {
 
     }
 
-    const check = async (xAccessToken, app) => {
-        const token = xAccessToken;
-
-        if (!token) {
-            return {
-                success: false,
-                message: 'not logged in'
-            };
-        }
-
-        const p = new Promise(
-            (resolve, reject) => {
-                jwt.verify(token, app.get('jwt-secret'), (err, decoded) => {
-                    if (err) reject(err)
-                    resolve(decoded)
-                })
-            }
-        )
-
-        const respond = (token) => {
-            return {
-                success: true,
-                info: token
-            }
-        }
-
-        const onError = (error) => {
-            return {
-                success: false,
-                message: error.message
-            }
-        }
-
-        try {
-            const user = await p;
-            const data = await respond(user);
-            return data;
-        } catch (e) {
-            return onError(e)
-        }
-
-
-    }
-
     return {
         signUp: signUp,
         login: login,
-        check: check
     }
 }
 

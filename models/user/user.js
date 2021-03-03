@@ -1,5 +1,8 @@
-const mongoose = require('mongoose')
-const Schema = mongoose.Schema
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+const crypto = require('crypto');
+require("dotenv").config();
+
 
 const User = new Schema({
     email: String,
@@ -10,9 +13,11 @@ const User = new Schema({
 })
 
 User.statics.create = function(email, password,name) {
+    const encryptedPassword = crypto.createHmac('sha1',process.env.SECRET).update(password).digest('base64');
+
     const user = new this({
         email,
-        password,
+        password:encryptedPassword,
         name
     })
 
@@ -28,7 +33,9 @@ User.statics.findOneByUsername = function(email) {
 
 // verify the password of the User documment
 User.methods.verify = function(password) {
-    return this.password === password
+    const encryptedPassword = crypto.createHmac('sha1',process.env.SECRET).update(password).digest('base64');
+
+    return this.password === encryptedPassword;
 }
 
 User.methods.assignAdmin = function() {
