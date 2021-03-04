@@ -1,10 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>LT.Blog</title>
-    <link rel='stylesheet' href='/stylesheets/design.css'/>
-    <link rel='stylesheet' href='/bootstrap/css/bootstrap.css'/>
-</head>
+<% include ../layout/head.ejs %>
 <body>
 <div class="login-page-area">
     <div class="login-form-group">
@@ -13,30 +9,41 @@
         <input type="email" class="form-control login-input" id="email">
         <label class="login-label">Password</label>
         <input type="password" class="form-control login-input" id="password">
-        <button type="submit" class="btn btn-secondary" onclick="login()">로그인</button>
+        <button type="submit" class="btn btn-secondary" id="loginButton" onclick="login()">로그인</button>
     </div>
 </div>
 
-
-<script src="/jquery/jquery.js"></script>
-<script src="/js-cookie/src/js.cookie.js"></script>
+<% include ../layout/script.ejs %>
 
 <script>
+    $(document).ready(function () {
+        Cookies.remove('x-access-token');
+    })
+    $("#email").keyup(function(event){
+        enterSubmit(event)
+    });
+    $("#password").keyup(function(event){
+        enterSubmit(event)
+    });
+    function enterSubmit(e) {
+        if(e.keyCode === 13){
+            login();
+        }
+    }
     async function login() {
         const email = $('#email').val();
         const password = $('#password').val();
 
         if (typeof email === "undefined" || email === "" || email === undefined) {
-            alert("Email error");
+            alert("이메일을 입력하세요");
         }else if (typeof password === "undefined" || password === "" || password === undefined) {
-            alert("Password error");
+            alert("비밀번호를 입력하세요");
         }else{
             const data = await $.post('/api/register/login', {email: email, password: password});
-
-            if (data.result === 500) {
-                alert('login failed');
-            } else if (data.result === 200) {
-                location.href = '/';
+            if (data.token){
+                location.href='/';
+            }else{
+                alert(data.error);
             }
         }
     }

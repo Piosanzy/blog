@@ -26,31 +26,15 @@ const authApi = () => {
             }
         }
 
-        const respond = (isAdmin) => {
-            return {
-                result:200,
-                message: 'registered successfully',
-                admin: isAdmin ? true : false
-            }
-        }
-
-        const onError = (error) => {
-            return {
-                result:500,
-                message: error.message
-            }
-        }
-        
         try {
             const findUser = await User.findOneByUsername(email);
-            const createUser = await create(findUser);
-            const countUser = await count(createUser);
-            const assignUser = await assign(countUser);
-            const data = await respond(assignUser);
+            const data = await create(findUser);
+            const countUser = await count(data);
+            await assign(countUser);
 
             return data;
         }catch (e){
-            return onError(e);
+            return {error:e.message};
         }
 
     }
@@ -61,7 +45,7 @@ const authApi = () => {
         const check = (user) => {
             if (!user) {
                 // user does not exist
-                throw new Error('login failed')
+                throw new Error('Not Found User Login Failed');
             } else {
                 // user exists, check the password
                 if (user.verify(password)) {
@@ -88,34 +72,18 @@ const authApi = () => {
                     })
                     return p
                 } else {
-                    throw new Error('login failed')
+                    throw new Error('Password Not Match Login Failed')
                 }
-            }
-        }
-
-        const respond = (token) => {
-            return {
-                result:200,
-                message: 'logged in successfully',
-                token
-            }
-        }
-
-        const onError = (error) => {
-            return {
-                result:500,
-                message: error.message
             }
         }
 
         try {
             const findUser = await User.findOneByUsername(email);
-            const token = await check(findUser);
-            const data = await respond(token);
+            const data = await check(findUser);
 
-            return data;
+            return {token: data};
         } catch (e) {
-            return onError(e);
+            return {error: e.message};
         }
 
     }

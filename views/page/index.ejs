@@ -1,25 +1,27 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>LT.Blog</title>
-    <link rel='stylesheet' href='/stylesheets/design.css'/>
-    <link rel='stylesheet' href='/bootstrap/css/bootstrap.css'/>
-</head>
+<% include ../layout/head.ejs %>
 <body>
 <div class="header">
-    <a id="register"></a>
+    <a class="register-a" id="register"></a>
+</div>
+<div class="app">
+    <div class="page-container">
+        <div class="user-area"></div>
+    </div>
 </div>
 
-<script src="/jquery/jquery.js"></script>
-<script src="/js-cookie/src/js.cookie.js"></script>
+<% include ../layout/script.ejs %>
 
 <script>
-    $(document).ready(function () {
-        if(Cookies.get('x-access-token')){
-            $('#register').attr('href','/api/register/logout');
+    $(document).ready(async function () {
+        if (Cookies.get('x-access-token')) {
+            $('#register').attr('href', '/api/register/logout');
             $('#register').text('로그아웃');
-        }else{
-            $('#register').attr('href','/login');
+            const data = await $.get('/api/user/info');
+            console.log(data);
+        } else {
+            $('#register').attr('href', '/login');
             $('#register').text('로그인');
         }
     })

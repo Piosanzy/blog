@@ -3,6 +3,7 @@ body{
     padding: 0;
 }
 .header{
+    position: fixed;
     width: 100%;
     height: 90px;
     border: 1px solid black;
@@ -42,4 +43,32 @@ body{
     border: 0;
     font-size: 12px;
     color: #969696;
+}
+
+.register-a{
+    border-radius: 5px;
+    background-color: #4d92fc;
+    color: #FFFFFF;
+    width: 200px;
+    height: 40px;
+    float: right;
+    font-size: 18px;
+    margin-top: 20px;
+    margin-right: 30px;
+    text-align: center;
+    line-height: 40px;
+    font-weight: bold;
+}
+.register-a:hover{
+    color: #FFFFFF;
+    font-weight: bold;
+    text-decoration:none;
+}
+
+.app{
+    width: 100%;
+    height: 100vh;
+    overflow: auto;
+    background-color: #fefefe;
+    padding: 90px 30px 0 30px;
 }
