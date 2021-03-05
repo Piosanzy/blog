@@ -4,11 +4,16 @@ const jwt = require('jsonwebtoken');
 const authApi = () => {
     const signUp = async (email, password, name) => {
         let newUser = null;
-        const create = (user) => {
+        const create = async (user) => {
             if (user) {
-                throw new Error('User already exists.');
+                throw new Error('Email is already in use.');
             } else {
-                return User.create(email, password, name);
+                const userCheck = await User.findOneByName(name);
+                if(userCheck){
+                    throw new Error('NickName is already in use.');
+                }else{
+                    return User.create(email, password, name);
+                }
             }
         }
 
@@ -27,7 +32,7 @@ const authApi = () => {
         }
 
         try {
-            const findUser = await User.findOneByUsername(email);
+            const findUser = await User.findOneByEmail(email);
             const data = await create(findUser);
             const countUser = await count(data);
             await assign(countUser);
@@ -56,7 +61,6 @@ const authApi = () => {
                                 _id: user._id,
                                 email: user.email,
                                 name:user.name,
-                                password:user.password,
                                 admin: user.admin,
                                 createAt:user.createAt,
                             },
@@ -78,7 +82,7 @@ const authApi = () => {
         }
 
         try {
-            const findUser = await User.findOneByUsername(email);
+            const findUser = await User.findOneByEmail(email);
             const data = await check(findUser);
 
             return {token: data};

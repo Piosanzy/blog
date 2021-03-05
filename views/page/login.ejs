@@ -2,14 +2,13 @@
 <html>
 <% include ../layout/head.ejs %>
 <body>
-<div class="login-page-area">
-    <div class="login-form-group">
-        <button type="reset" class="reset-btn">다시 작성</button>
-        <label class="login-label">Email</label>
-        <input type="email" class="form-control login-input" id="email">
-        <label class="login-label">Password</label>
-        <input type="password" class="form-control login-input" id="password">
-        <button type="submit" class="btn btn-secondary" id="loginButton" onclick="login()">로그인</button>
+<div class="register-page-area">
+    <div class="register-form-group">
+        <label class="register-label">Email</label>
+        <input type="email" class="form-control register-input" id="email">
+        <label class="register-label">Password</label>
+        <input type="password" class="form-control register-input" id="password">
+        <button type="submit" class="btn login-btn" id="loginButton" onclick="login()">로그인</button>
     </div>
 </div>
 
@@ -19,31 +18,34 @@
     $(document).ready(function () {
         Cookies.remove('x-access-token');
     })
-    $("#email").keyup(function(event){
+    $("#email").keyup(function (event) {
         enterSubmit(event)
     });
-    $("#password").keyup(function(event){
+    $("#password").keyup(function (event) {
         enterSubmit(event)
     });
+
     function enterSubmit(e) {
-        if(e.keyCode === 13){
+        if (e.keyCode === 13) {
             login();
         }
     }
+
     async function login() {
         const email = $('#email').val();
         const password = $('#password').val();
 
         if (typeof email === "undefined" || email === "" || email === undefined) {
             alert("이메일을 입력하세요");
-        }else if (typeof password === "undefined" || password === "" || password === undefined) {
+        } else if (typeof password === "undefined" || password === "" || password === undefined) {
             alert("비밀번호를 입력하세요");
-        }else{
+        } else {
             const data = await $.post('/api/register/login', {email: email, password: password});
-            if (data.token){
-                location.href='/';
-            }else{
+            if (data.token) {
+                location.href = '/';
+            } else {
                 alert(data.error);
+                $('#password').val('');
             }
         }
     }

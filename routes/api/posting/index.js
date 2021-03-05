@@ -1,31 +1,41 @@
 const express = require('express');
-const cookieParser = require('cookie-parser');
 const router = express.Router();
 
+const postingApiController = require('../../../controller/posting/index');
+const authMiddleware = require('../../../middlewares/auth/index');
+
+
 /** all posting contents **/
-router.get('/contents', function(req, res, next) {
+router.get('/', function(req, res, next) {
     res.json({});
 });
 
 
 /** posting contents info **/
-router.get('/contents/:postingId', function(req, res, next) {
+router.get('/:postingId', function(req, res, next) {
     res.json({});
 });
 
 
 /** insert posting contents **/
-router.post('/contents', function(req, res, next) {
-    res.json({});
+router.post('/',authMiddleware, async function(req, res, next) {
+    const _data = {
+        title:req.body.title,
+        category:req.body.category,
+        contents:req.body.contents,
+    }
+
+    const data = await postingApiController.insertPosting(req.decoded,_data);
+    res.json(data);
 });
 
 /** update posting contents **/
-router.put('/contents/:postingId', function(req, res, next) {
+router.put('/:postingId', function(req, res, next) {
     res.json({});
 });
 
 /** delete posting contents **/
-router.delete('/contents/:postingId', function(req, res, next) {
+router.delete('/:postingId', function(req, res, next) {
     res.json({});
 });
 

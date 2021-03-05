@@ -2,27 +2,62 @@
 <html>
 <% include ../layout/head.ejs %>
 <body>
-<div class="header">
-    <a class="register-a" id="register"></a>
-</div>
 <div class="app">
     <div class="page-container">
-        <div class="user-area"></div>
+        <div class="user-area">
+            <div id="userInfoArea" class="user-info-area">
+                <span id="userName" class="user-name"></span>
+                <a id="userMyPage" class="user-my-page"><i id="profileIcon"></i></a>
+                <p id="userMail" class="user-mail"></p>
+            </div>
+            <a class="register-a" id="register"></a>
+            <p class="register-p">
+                <a id="signUp" class="sign-up">
+                    <i id="signUpIcon"></i>
+                </a>
+            </p>
+        </div>
     </div>
 </div>
 
 <% include ../layout/script.ejs %>
 
 <script>
+    const $register = $('#register');
+    const $userInfoArea = $('#userInfoArea');
+    const $userName = $('#userName');
+    const $userMail = $('#userMail');
+    const $signUp = $('#signUp');
+    const $signUpIcon = $('#signUpIcon');
+    const $userMyPage = $('#userMyPage');
+    const $profileIcon = $('#profileIcon');
+
+    async function hasLogin() {
+        $register.attr('href', '/api/register/logout');
+        $register.text('로그아웃');
+        const data = await $.get('/api/user/info');
+        $userName.text(data.name);
+        $userMail.text(data.email);
+        $userMyPage.attr('href','/user/mypage');
+        $userMyPage.prepend('마이페이지');
+        $profileIcon.addClass('fas fa-address-card');
+        console.log(data);
+    }
+
+    async function notLogin() {
+        $register.attr('href', '/login');
+        $register.text('로그인');
+        $userName.text('Anonymous');
+        $signUp.append('회원가입');
+        $signUp.attr('href', '/join');
+        $signUpIcon.addClass('fas fa-user');
+    }
+
     $(document).ready(async function () {
         if (Cookies.get('x-access-token')) {
-            $('#register').attr('href', '/api/register/logout');
-            $('#register').text('로그아웃');
-            const data = await $.get('/api/user/info');
-            console.log(data);
+            await hasLogin();
         } else {
-            $('#register').attr('href', '/login');
-            $('#register').text('로그인');
+            await notLogin();
         }
     })
 </script>

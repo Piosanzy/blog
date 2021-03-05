@@ -12,7 +12,7 @@ require("dotenv").config();
 const pageRouter = require('./routes/page/index');
 const postingApiRouter = require('./routes/api/posting/index');
 const registerApiRouter = require('./routes/api/register/index');
-const usersRouter = require('./routes/users');
+const userRouter = require('./routes/page/user/index');
 const userApiRouter = require('./routes/api/user/index');
 
 const mongoDBURI = process.env.ATLAS_URI;
@@ -31,13 +31,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/bootstrap', express.static(path.join(__dirname, 'node_modules/bootstrap/dist')));
 app.use('/jquery', express.static(path.join(__dirname, 'node_modules/jquery/dist')));
 app.use("/js-cookie", express.static(path.join(__dirname, "node_modules/js-cookie")));
+app.use('/@fortawesome', express.static(path.join(__dirname, 'node_modules/@fortawesome')));
 
 
 app.use('/', pageRouter);
 app.use('/api/posting', postingApiRouter);
 app.use('/api/register', registerApiRouter);
 app.use('/api/user', userApiRouter);
-app.use('/users', usersRouter);
+app.use('/user', userRouter);
 
 app.use(morgan('dev'));
 

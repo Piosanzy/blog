@@ -25,9 +25,15 @@ User.statics.create = function(email, password,name) {
     return user.save()
 }
 
-User.statics.findOneByUsername = function(email) {
+User.statics.findOneByEmail = function(email) {
     return this.findOne({
         email
+    }).exec()
+}
+
+User.statics.findOneByName = function(name) {
+    return this.findOne({
+        name
     }).exec()
 }
 

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<% include ../layout/head.ejs %>
+<body>
+
+<div class="register-page-area">
+    <div class="register-form-group">
+        <label class="register-label">Email</label>
+        <input type="email" class="form-control register-input" id="email">
+        <p id="emailWarning" class="warning-message"></p>
+
+        <label class="register-label">Password</label>
+        <input type="password" class="form-control register-input" id="password">
+        <p id="passwordWarning" class="warning-message"></p>
+
+        <label class="register-label">Re-enter Password</label>
+        <input type="password" class="form-control register-input" id="rePassword">
+        <p id="rePasswordWarning" class="warning-message"></p>
+
+        <label class="register-label">NickName</label>
+        <input type="text" class="form-control register-input" id="nickName">
+        <p id="nameWarning" class="warning-message"></p>
+
+        <button class="btn join-btn" onclick="signUp()">회원가입</button>
+    </div>
+</div>
+
+<% include ../layout/script.ejs %>
+
+<script>
+    const $email = $('#email');
+    const $nickName = $('#nickName');
+    const $password = $('#password');
+    const $rePassword = $('#rePassword');
+    const $emailWarning = $('#emailWarning');
+    const $nameWarning = $('#nameWarning');
+    const $passwordWarning = $('#passwordWarning');
+    const $rePasswordWarning = $('#rePasswordWarning');
+    const passwordReg = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/
+    const emailReg = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
+    let emailCheck;
+    let nameCheck;
+    let passwordCheck;
+    let rePasswordCheck;
+    $password.change(() => {
+        checkPasswordReg();
+    });
+    $rePassword.change(async () => {
+        await checkRePassword()
+    })
+
+    async function checkPasswordReg() {
+        if (passwordReg.exec($password.val())) {
+            $passwordWarning.text('');
+            passwordCheck = true;
+        } else {
+            $passwordWarning.text('8자리 이상 영어 1글자, 숫자 1글자, 특수기호 1개 이상 사용해야 합니다.');
+            passwordCheck = false;
+        }
+    }
+    async function checkEmail() {
+        if (typeof $email.val() === "undefined" || $email.val() === "" || $email.val() === undefined) {
+            $emailWarning.text('이메일을 입력 해 주세요.');
+            emailCheck = false;
+        } else {
+            if(emailReg.exec($email.val())){
+                $emailWarning.text('');
+                emailCheck = true;
+            }else{
+                $emailWarning.text('이메일형식이 올바르지 않습니다.');
+                emailCheck = false;
+            }
+        }
+    }
+
+    async function checkName() {
+        if (typeof $nickName.val() === "undefined" || $nickName.val() === "" || $nickName.val() === undefined) {
+            $nameWarning.text('닉네임을 입력 해 주세요.');
+            nameCheck = false;
+        } else {
+            $nameWarning.text('');
+            nameCheck = true;
+        }
+    }
+    async function checkRePassword() {
+        if ($password.val() === $rePassword.val()) {
+            $rePasswordWarning.text('');
+            rePasswordCheck = true;
+        } else {
+            $rePasswordWarning.text('비밀번호가 동일하지 않습니다.');
+            rePasswordCheck = false;
+        }
+    }
+    async function signUp() {
+        await checkPasswordReg();
+        await checkRePassword();
+        await checkEmail();
+        await checkName();
+        if(emailCheck&&nameCheck&&passwordCheck&&rePasswordCheck){
+            const body = {
+                email:$email.val(),
+                password:$password.val(),
+                name:$nickName.val()
+            };
+            const data = await $.post('/api/register/signup',body);
+            if(data.error){
+                alert(data.error);
+            }else{
+                location.href = '/login';
+            }
+        }
+    }
+</script>
+
+</body>
+</html>
