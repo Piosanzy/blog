@@ -2,6 +2,22 @@
 <html>
 <% include ../../layout/head.ejs %>
 <body>
+
+<div class="app">
+    <div class="page-container">
+        <div class="user-profile">
+            <img class="profile-image-area " src="/images/default-profile.png">
+            <span id="userName" class="profile-user-name"></span>
+        </div>
+    </div>
+</div>
+
 <% include ../../layout/script.ejs %>
+<script>
+    const $userName = $('#userName');
+    $(document).ready(()=>{
+        $userName.text("<%= name %>");
+    });
+</script>
 </body>
 </html>
