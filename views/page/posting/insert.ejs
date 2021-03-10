@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<% include ../../layout/head.ejs %>
+<body>
+
+<div class="app">
+    <div class="insert-container">
+        <div class="posting-area">
+            <label class="col-form-label">제목</label>
+            <input type="text" class="form-control" id="title">
+            <label class="col-form-label" >카테고리</label>
+            <input type="text" class="form-control" id="category">
+            <label class="col-form-label">내용</label>
+            <textarea class="form-control" id="contents"></textarea>
+            <button class="btn posting-insert-btn" onclick="insertPosting()">등록</button>
+        </div>
+    </div>
+</div>
+
+<% include ../../layout/script.ejs %>
+<script>
+    const $title = $("#title");
+    const $category = $("#category");
+    const $contents = $("#contents");
+
+    async function insertPosting() {
+        const _data = {
+            title:$title.val(),
+            category:$category.val(),
+            contents:$contents.val(),
+        }
+        const data = await $.post('/api/posting/',_data);
+        console.log(data);
+    }
+</script>
+</body>
+</html>

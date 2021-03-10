@@ -6,14 +6,19 @@ const authMiddleware = require('../../../middlewares/auth/index');
 
 
 /** all posting contents **/
-router.get('/', function(req, res, next) {
-    res.json({});
+router.get('/', async function(req, res, next) {
+    const data = await postingApiController.getPosting();
+
+    res.json(data);
 });
 
 
 /** posting contents info **/
-router.get('/:postingId', function(req, res, next) {
-    res.json({});
+router.get('/:postingId',authMiddleware, async function(req, res, next) {
+
+    const data = await postingApiController.readPosting(req.params.postingId);
+
+    res.json(data);
 });
 
 

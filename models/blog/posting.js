@@ -22,4 +22,15 @@ postingSchema.statics.create = function(title, user_name,user_id,category,conten
     return posting.save()
 }
 
+postingSchema.statics.readPosting = function (_id) {
+    return this.findOne({
+        _id
+    }).exec()
+}
+
+postingSchema.statics.getPosting = function (_id) {
+    return this.find({}).exec()
+}
+
+
 module.exports = mongoose.model('Posting',postingSchema)

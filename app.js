@@ -6,6 +6,8 @@ const logger = require('morgan');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
+const favicon = require('serve-favicon');
+
 
 require("dotenv").config();
 
@@ -14,6 +16,7 @@ const postingApiRouter = require('./routes/api/posting/index');
 const registerApiRouter = require('./routes/api/register/index');
 const userRouter = require('./routes/page/user/index');
 const userApiRouter = require('./routes/api/user/index');
+const postingRouter = require('./routes/page/posting/index');
 
 const mongoDBURI = process.env.ATLAS_URI;
 
@@ -32,6 +35,7 @@ app.use('/bootstrap', express.static(path.join(__dirname, 'node_modules/bootstra
 app.use('/jquery', express.static(path.join(__dirname, 'node_modules/jquery/dist')));
 app.use("/js-cookie", express.static(path.join(__dirname, "node_modules/js-cookie")));
 app.use('/@fortawesome', express.static(path.join(__dirname, 'node_modules/@fortawesome')));
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 
 
 app.use('/', pageRouter);
@@ -39,6 +43,7 @@ app.use('/api/posting', postingApiRouter);
 app.use('/api/register', registerApiRouter);
 app.use('/api/user', userApiRouter);
 app.use('/user', userRouter);
+app.use('/posting', postingRouter);
 
 app.use(morgan('dev'));
 

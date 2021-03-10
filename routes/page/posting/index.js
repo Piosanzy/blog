@@ -3,11 +3,11 @@ const router = express.Router();
 
 const authMiddleware = require('../../../middlewares/auth/index');
 
-router.get('/mypage', authMiddleware, function (req, res, next) {
+router.get('/insert', authMiddleware, function (req, res, next) {
     if (req.decoded.admin) {
-        res.render('page/user/adminpage',req.decoded);
+        res.render('page/posting/insert');
     } else {
-        res.render('page/user/mypage',req.decoded);
+        res.redirect('/');
     }
 });
 

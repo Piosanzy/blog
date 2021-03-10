@@ -1,15 +1,16 @@
-body{
+body {
     margin: 0;
     padding: 0;
 }
-.register-page-area{
+
+.register-page-area {
     overflow: auto;
     width: 100%;
     height: 100vh;
     background-color: #e4e4e4;
 }
 
-.register-form-group{
+.register-form-group {
     width: 500px;
     padding: 10px;
     margin: 100px auto 0 auto;
@@ -18,20 +19,20 @@ body{
     border-radius: 10px;
 }
 
-.register-input{
+.register-input {
     margin-bottom: 10px;
     color: #1a1a1a;
     font-size: 15px;
 }
 
-.register-label{
+.register-label {
     color: #969696;
     font-size: 15px;
     margin-bottom: 10px;
     font-family: 'Noto Sans KR', sans-serif;
 }
 
-.btn.login-btn{
+.btn.login-btn {
     border-radius: 5px;
     background-color: #4d92fc;
     color: #FFFFFF;
@@ -40,21 +41,23 @@ body{
     width: 100%;
 }
 
-.btn.login-btn:hover{
+.btn.login-btn:hover {
     color: #FFFFFF;
     background-color: #3982ef;
 
 }
-.btn.login-btn:focus{
+
+.btn.login-btn:focus {
     outline: none;
     box-shadow: none;
 }
-.btn.login-btn:active{
+
+.btn.login-btn:active {
     background-color: #226ede;
 
 }
 
-.btn.join-btn{
+.btn.join-btn {
     border-radius: 5px;
     background-color: #41d248;
     color: #FFFFFF;
@@ -64,21 +67,23 @@ body{
 
 }
 
-.btn.join-btn:hover{
+.btn.join-btn:hover {
     color: #FFFFFF;
     background-color: #2ec342;
 
 }
-.btn.join-btn:focus{
+
+.btn.join-btn:focus {
     outline: none;
     box-shadow: none;
 }
-.btn.join-btn:active{
+
+.btn.join-btn:active {
     background-color: #178520;
 
 }
 
-.register-a{
+.register-a {
     border-radius: 5px;
     background-color: #4d92fc;
     color: #FFFFFF;
@@ -93,33 +98,35 @@ body{
     font-family: 'Noto Sans KR', sans-serif;
 
 }
-.register-a:hover{
+
+.register-a:hover {
     color: #FFFFFF;
     font-weight: bold;
-    text-decoration:none;
+    text-decoration: none;
 }
 
-.app{
+.app {
     width: 100%;
     height: 100vh;
     overflow: auto;
     background-color: #ffffff;
-    padding: 90px 90px 0 90px;
 }
 
-.page-container{
+.page-container {
     width: 100%;
     height: 100%;
     overflow: auto;
+    padding: 90px 90px 0 90px;
 }
 
-.user-profile{
+.user-profile {
     width: 700px;
     height: 300px;
     border: 1px solid #1a1a1a;
     margin: 0 auto;
 }
-.profile-image-area{
+
+.profile-image-area {
     width: 150px;
     height: 150px;
     border-radius: 50%;
@@ -130,7 +137,8 @@ body{
     padding: 20px;
     color: #FFFFFF;
 }
-.profile-user-name{
+
+.profile-user-name {
     display: inline-block;
     width: 100%;
     text-align: center;
@@ -138,7 +146,7 @@ body{
     font-size: 40px;
 }
 
-.user-area{
+.user-area {
     float: right;
     width: 400px;
     height: 150px;
@@ -147,50 +155,138 @@ body{
     border-radius: 5px;
     background-color: #F8F8F8;
 }
-.user-info-area{
+
+.user-info-area {
     float: left;
     margin-top: 20px;
     margin-left: 30px;
 }
 
-.user-name{
+.user-name {
     font-size: 20px;
     color: #1a1a1a;
     font-family: 'RocknRoll One', sans-serif;
 }
-.user-mail{
+
+.user-mail {
     font-size: 12px;
     color: #999999;
     font-family: 'RocknRoll One', sans-serif;
 }
-.register-p{
+
+.register-p {
     float: right;
     margin-right: 30px;
     clear: both;
 }
 
-.sign-up{
+.sign-up {
     font-size: 12px;
     color: #777777;
     font-family: 'Noto Sans KR', sans-serif;
 }
-.sign-up:hover{
+
+.sign-up:hover {
     color: #777777;
 }
 
-.warning-message{
-    color: rgba(255,0,0,0.7);
+.warning-message {
+    color: rgba(255, 0, 0, 0.7);
     font-size: 12px;
     font-family: 'Noto Sans KR', sans-serif;
 
 }
 
-.user-my-page{
+.user-my-page {
     color: #999999;
     font-size: 15px;
 }
-.user-my-page:hover{
-    color: #4774bc;
-    text-decoration:none;
 
+.user-my-page:hover {
+    color: #4774bc;
+    text-decoration: none;
 }
+
+
+.btn.posting-insert-btn {
+    width: 200px;
+    background-color: #00ff00;
+    font-family: 'Noto Sans KR', sans-serif;
+    color: #ffffff;
+}
+.btn.posting-insert-btn:hover {
+    background-color: #0dd90d;
+    color: #ffffff;
+}
+.btn.posting-insert-btn:active {
+    background-color: #04b304;
+    color: #ffffff;
+}
+.btn.posting-insert-btn:focus {
+    color: #ffffff;
+    outline: none;
+    box-shadow: none;
+}
+
+.btn.posting-update-btn {
+    width: 200px;
+    background-color: #0000ff;
+    font-family: 'Noto Sans KR', sans-serif;
+    color: #ffffff;
+}
+.btn.posting-update-btn:hover {
+    background-color: #0d0dd9;
+    color: #ffffff;
+}
+.btn.posting-update-btn:active {
+    background-color: #0404b3;
+    color: #ffffff;
+}
+.btn.posting-update-btn:focus {
+    color: #ffffff;
+    outline: none;
+    box-shadow: none;
+}
+
+
+.btn.posting-delete-btn {
+    width: 200px;
+    background-color: #ff0000;
+    font-family: 'Noto Sans KR', sans-serif;
+    color: #ffffff;
+}
+.btn.posting-delete-btn:hover {
+    background-color: #d90d0d;
+    color: #ffffff;
+}
+.btn.posting-delete-btn:active {
+    background-color: #b30404;
+    color: #ffffff;
+}
+.btn.posting-delete-btn:focus {
+    color: #ffffff;
+    outline: none;
+    box-shadow: none;
+}
+
+
+.posting-crud{
+    display: flex;
+    justify-content: space-around;
+}
+
+.insert-container{
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: #dddddd;
+}
+
+.posting-area{
+    width: 50%;
+    height: 90%;
+    margin: 40px auto 0;
+    background: #FFFFFF;
+    padding: 30px;
+}
+
