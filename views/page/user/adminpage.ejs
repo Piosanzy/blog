@@ -13,6 +13,9 @@
                 <button class="btn posting-update-btn">게시물 수정</button>
                 <button class="btn posting-delete-btn">게시물 삭제</button>
             </div>
+            <div class="posting-list-area" id="postingList">
+
+            </div>
         </div>
     </div>
 </div>
@@ -20,9 +23,23 @@
 <% include ../../layout/script.ejs %>
 <script>
     const $userName = $('#userName');
+    const $postingList = $("#postingList");
     $(document).ready(()=>{
         $userName.text("<%= name %>");
+        postingList();
     });
+
+    async function postingList() {
+        const data = await $.get('/api/posting/');
+        data.map((_data)=>{
+            console.log(_data.createAt)
+            const formatTime = moment(_data.createAt).format('MM-DD-hh:mm');
+            const title = `<span class="posting-item-title">${_data.title}</span>`;
+            const userName = `<span class="posting-item-user-name">${_data.user_name}</span>`
+            const createAt = `<span class="posting-item-user-name">${formatTime}</span>`
+            $postingList.append(`<div class="posting-list-admin">${title}${userName}${createAt}<div>`);
+        })
+    }
 </script>
 </body>
 </html>

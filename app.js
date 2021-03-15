@@ -34,6 +34,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/bootstrap', express.static(path.join(__dirname, 'node_modules/bootstrap/dist')));
 app.use('/jquery', express.static(path.join(__dirname, 'node_modules/jquery/dist')));
 app.use("/js-cookie", express.static(path.join(__dirname, "node_modules/js-cookie")));
+app.use("/moment", express.static(path.join(__dirname, "node_modules/moment")));
 app.use('/@fortawesome', express.static(path.join(__dirname, 'node_modules/@fortawesome')));
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 

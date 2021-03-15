@@ -5,14 +5,14 @@
 
 <div class="app">
     <div class="insert-container">
-        <div class="posting-area">
+        <div class="posting-insert-area">
             <label class="col-form-label">제목</label>
             <input type="text" class="form-control" id="title">
             <label class="col-form-label" >카테고리</label>
             <input type="text" class="form-control" id="category">
             <label class="col-form-label">내용</label>
             <textarea class="form-control" id="contents"></textarea>
-            <button class="btn posting-insert-btn" onclick="insertPosting()">등록</button>
+            <button class="btn posting-insert-btn margin-t" onclick="postingButton()">등록</button>
         </div>
     </div>
 </div>
@@ -23,14 +23,33 @@
     const $category = $("#category");
     const $contents = $("#contents");
 
+    function checkVal() {
+        return !!($title.val() && $category.val() && $contents.val());
+    }
+
     async function insertPosting() {
-        const _data = {
-            title:$title.val(),
-            category:$category.val(),
-            contents:$contents.val(),
+        if(checkVal()){
+            const _data = {
+                title:$title.val(),
+                category:$category.val(),
+                contents:$contents.val(),
+            }
+            const data = await $.post('/api/posting/',_data);
+            if(data.error){
+                alert(data.error);
+            }else{
+                location.href = '/';
+            }
+        }else{
+            alert("내용 누락");
         }
-        const data = await $.post('/api/posting/',_data);
-        console.log(data);
+    }
+
+    async function postingButton() {
+
+        if(confirm("등록하시겠습니까?")) {
+            await insertPosting();
+        }
     }
 </script>
 </body>
