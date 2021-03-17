@@ -7,6 +7,7 @@ const postingSchema = new Schema({
     user_id:Schema.Types.ObjectId,
     category:String,
     contents:String,
+    image:String,
     createAt: {type:Date,default:Date.now()},
     updateAt:{type:Date,default:Date.now()},
 })

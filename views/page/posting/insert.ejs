@@ -8,46 +8,51 @@
         <div class="posting-insert-area">
             <label class="col-form-label">제목</label>
             <input type="text" class="form-control" id="title">
-            <label class="col-form-label" >카테고리</label>
+            <label class="col-form-label">카테고리</label>
             <input type="text" class="form-control" id="category">
             <label class="col-form-label">내용</label>
-            <textarea class="form-control" id="contents"></textarea>
+
+            <div id="contents"></div>
             <button class="btn posting-insert-btn margin-t" onclick="postingButton()">등록</button>
         </div>
+
     </div>
 </div>
 
 <% include ../../layout/script.ejs %>
 <script>
+    let editor = new FroalaEditor('#contents', {
+        enter : FroalaEditor.ENTER_BR
+    });
+
     const $title = $("#title");
     const $category = $("#category");
-    const $contents = $("#contents");
 
     function checkVal() {
-        return !!($title.val() && $category.val() && $contents.val());
+        return !!($title.val() && $category.val() && editor.html.get());
     }
 
     async function insertPosting() {
-        if(checkVal()){
+        if (checkVal()) {
             const _data = {
-                title:$title.val(),
-                category:$category.val(),
-                contents:$contents.val(),
+                title: $title.val(),
+                category: $category.val(),
+                contents: editor.html.get(),
             }
-            const data = await $.post('/api/posting/',_data);
-            if(data.error){
+            const data = await $.post('/api/posting/', _data);
+            if (data.error) {
                 alert(data.error);
-            }else{
+            } else {
                 location.href = '/';
             }
-        }else{
+        } else {
             alert("내용 누락");
         }
     }
 
     async function postingButton() {
 
-        if(confirm("등록하시겠습니까?")) {
+        if (confirm("등록하시겠습니까?")) {
             await insertPosting();
         }
     }

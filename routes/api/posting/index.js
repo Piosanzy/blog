@@ -14,7 +14,7 @@ router.get('/', async function(req, res, next) {
 
 
 /** posting contents info **/
-router.get('/:postingId',authMiddleware, async function(req, res, next) {
+router.get('/:postingId', async function(req, res, next) {
 
     const data = await postingApiController.readPosting(req.params.postingId);
 

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<% include ../../layout/head.ejs %>
+<body>
+
+<div class="app">
+    <div class="page-container">
+        <div class="posting-title-area">
+            <div class="posting-title-item">
+                <div class="category-area">
+                    <span>category |</span>
+                    <div class="posting-category" id="postingCategory"></div>
+                </div>
+                <span class="posting-title" id="postingTitle"></span>
+                <span class="posting-create-at" id="postingCreateAt"></span>
+                <span class="posting-path" id="postingPath" onclick="copyPath()"></span>
+                <input type="hidden" id="copyPathValue">
+            </div>
+        </div>
+        <div class="posting-contents">
+            <div class="posting-contents-item" id="postingContentsItem"></div>
+        </div>
+    </div>
+</div>
+
+<% include ../../layout/script.ejs %>
+<script>
+    const $postingTitle = $("#postingTitle");
+    const $postingCreateAt = $("#postingCreateAt");
+    const $postingCategory = $("#postingCategory");
+    const $postingPath = $("#postingPath");
+    const $copyPathValue = $("#copyPathValue");
+    const $postingContentsItem = $("#postingContentsItem");
+    const path = location.protocol+"//"+location.host+location.pathname;
+    $(document).ready(async function () {
+        const data = await $.get('/api/posting/<%= id %>');
+        console.log(data);
+        $postingPath.text(path);
+        $copyPathValue.val(path);
+        $postingTitle.text(data.title);
+        $postingCreateAt.text(moment(data.createAt).format('YYYY-MM-DD : HH:mm:ss'));
+        $postingCategory.text(data.category);
+        $postingContentsItem.append(data.contents);
+    });
+
+    function copyPath() {
+        document.getElementById("copyPathValue").select();
+        document.execCommand("copy");
+        alert("URL 복사:"+path);
+    }
+</script>
+</body>
+</html>

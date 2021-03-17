@@ -11,5 +11,12 @@ router.get('/insert', authMiddleware, function (req, res, next) {
     }
 });
 
+router.get('/:_id',function (req,res,next) {
+    const data = {
+        id:req.params._id
+    }
+    res.render('page/posting/index',data);
+})
+
 
 module.exports = router;

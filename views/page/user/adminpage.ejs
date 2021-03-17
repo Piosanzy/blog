@@ -10,12 +10,12 @@
             <span id="userName" class="profile-user-name"></span>
             <div class="posting-crud">
                 <a class="btn posting-insert-btn" href="/posting/insert">게시물 등록</a>
-                <button class="btn posting-update-btn">게시물 수정</button>
-                <button class="btn posting-delete-btn">게시물 삭제</button>
+                <!--<button class="btn posting-update-btn">게시물 수정</button>-->
+                <!--<button class="btn posting-delete-btn">게시물 삭제</button>-->
             </div>
-            <div class="posting-list-area" id="postingList">
+        </div>
+        <div class="posting-list-area" id="postingList">
 
-            </div>
         </div>
     </div>
 </div>
@@ -24,21 +24,26 @@
 <script>
     const $userName = $('#userName');
     const $postingList = $("#postingList");
-    $(document).ready(()=>{
+    $(document).ready(() => {
         $userName.text("<%= name %>");
         postingList();
     });
 
     async function postingList() {
         const data = await $.get('/api/posting/');
-        data.map((_data)=>{
-            console.log(_data.createAt)
+        data.map((_data) => {
+            console.log(_data)
             const formatTime = moment(_data.createAt).format('MM-DD-hh:mm');
             const title = `<span class="posting-item-title">${_data.title}</span>`;
             const userName = `<span class="posting-item-user-name">${_data.user_name}</span>`
-            const createAt = `<span class="posting-item-user-name">${formatTime}</span>`
-            $postingList.append(`<div class="posting-list-admin">${title}${userName}${createAt}<div>`);
+            const createAt = `<span class="posting-item-time">${formatTime}</span>`
+            const postingInfo = `<div class="posting-info-area">${userName}${createAt}</div>`
+            $postingList.append(`<div class="posting-list-admin" onclick="hrefPosting('${_data._id}')">${title}${postingInfo}<div>`);
         })
+    }
+
+    async function hrefPosting(_id) {
+        location.href = `/posting/${_id}`;
     }
 </script>
 </body>

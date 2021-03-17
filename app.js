@@ -36,6 +36,7 @@ app.use('/jquery', express.static(path.join(__dirname, 'node_modules/jquery/dist
 app.use("/js-cookie", express.static(path.join(__dirname, "node_modules/js-cookie")));
 app.use("/moment", express.static(path.join(__dirname, "node_modules/moment")));
 app.use('/@fortawesome', express.static(path.join(__dirname, 'node_modules/@fortawesome')));
+app.use('/froala-editor', express.static(path.join(__dirname, 'node_modules/froala-editor')));
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 
 
@@ -52,7 +53,7 @@ app.set('jwt-secret',process.env.SECRET);
 
 const mongo = mongoose.connection;
 mongo.once("open", () => {
-  console.log("MongoDB database connection succes");
+  console.log("MongoDB database connection success");
 });
 
 
