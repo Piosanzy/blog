@@ -13,10 +13,12 @@ require("dotenv").config();
 
 const pageRouter = require('./routes/page/index');
 const postingApiRouter = require('./routes/api/posting/index');
+const chatApiRouter = require('./routes/api/chat/index');
 const registerApiRouter = require('./routes/api/register/index');
 const userRouter = require('./routes/page/user/index');
 const userApiRouter = require('./routes/api/user/index');
 const postingRouter = require('./routes/page/posting/index');
+const chatRouter = require('./routes/page/chat/index');
 
 const mongoDBURI = process.env.ATLAS_URI;
 
@@ -42,18 +44,20 @@ app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 
 app.use('/', pageRouter);
 app.use('/api/posting', postingApiRouter);
+app.use('/api/chat', chatApiRouter);
 app.use('/api/register', registerApiRouter);
 app.use('/api/user', userApiRouter);
 app.use('/user', userRouter);
 app.use('/posting', postingRouter);
+app.use('/chat', chatRouter);
 
 app.use(morgan('dev'));
 
-app.set('jwt-secret',process.env.SECRET);
+app.set('jwt-secret', process.env.SECRET);
 
 const mongo = mongoose.connection;
 mongo.once("open", () => {
-  console.log("MongoDB database connection success");
+    console.log("MongoDB database connection success");
 });
 
 
@@ -61,11 +65,12 @@ mongoose.connect(mongoDBURI, {
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true,
-}).then((res)=>{
-  console.log("mongodb Connect");
-}).catch((err)=>{
-  console.error(err);
+}).then((res) => {
+    console.log("mongodb Connect");
+}).catch((err) => {
+    console.error(err);
 });
+
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
     next(createError(404));

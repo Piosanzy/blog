@@ -9,6 +9,7 @@
                 <span id="userName" class="user-name"></span>
                 <a id="userMyPage" class="user-my-page"><i id="profileIcon"></i></a>
                 <p id="userMail" class="user-mail"></p>
+                <a href="/chat"><div id="chat"></div></a>
             </div>
             <a class="register-a" id="register"></a>
             <p class="register-p">
@@ -20,7 +21,7 @@
     </div>
 </div>
 
-<% include ../layout/script.ejs %>
+<% include ../layout/scripts.ejs %>
 
 <script>
     const $register = $('#register');
@@ -31,6 +32,7 @@
     const $signUpIcon = $('#signUpIcon');
     const $userMyPage = $('#userMyPage');
     const $profileIcon = $('#profileIcon');
+    const $chat = $('#chat');
 
     async function hasLogin() {
         $register.attr('href', '/api/register/logout');
@@ -41,6 +43,7 @@
         $userMyPage.attr('href','/user/mypage');
         $userMyPage.prepend('마이페이지');
         $profileIcon.addClass('fas fa-address-card');
+        $chat.addClass('chatButton')
         console.log(data);
     }
 

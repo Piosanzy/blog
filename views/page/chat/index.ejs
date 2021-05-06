@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<% include ../../layout/head.ejs %>
+<body>
+<div class="app">
+    <div class="page-container">
+        <div class="chatting-room-list">
+            <div class="chatting-list-title">
+                Chatting List
+            </div>
+            <div class="chatting-list-body">
+                <div class="online-user-list" id="onlineList"></div>
+                <div class="room-list" id="chatList">
+                    <div class="add-room" onclick="redirectCreateRoom()">Create Room</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<% include ../../layout/scripts.ejs %>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    $(function () {
+        // socket.io 서버에 접속한다
+        var socket = io();
+
+        // 서버로 자신의 정보를 전송한다.
+        socket.emit("login", {
+            user_id: "<%= _id %>",
+            user_name: "<%= name %>",
+        });
+        setUserSession("<%= _id %>", "<%= name %>", "<%= email %>")
+
+        socket.on("login", async function (data) {
+            await setOnlineUser()
+        })
+
+        socket.on("disconnectSession", function (data){
+            const r = $.ajax({
+                url:`/api/chat/session/disconnect/${data}`,
+                type:"DELETE"
+            })
+            setOnlineUser()
+            console.log(data)
+        })
+    });
+    $(document).ready(async () => {
+        const data = await $.get('/api/chat/room/list');
+        setRoom(data);
+        console.log(data)
+    })
+
+    async function setUserSession(user_id, user_name, user_email) {
+        const _data = {
+            user_id: user_id,
+            user_name: user_name,
+            user_email: user_email
+        }
+        const data = await $.post('/api/chat/session/init', _data);
+        console.log(data)
+    }
+
+    async function setOnlineUser(){
+        $("#onlineList").empty()
+        const data = await $.get('/api/chat/session/list');
+        data.map((item) =>{
+            const online = `<div class="online-check"></div>`
+            const userName = `<div class="online-user-name">${online}${item.name}</div>`
+            const div = `<div class="online-user" id="${item._id}">${userName}</div>`
+            $("#onlineList").append(div)
+        })
+        console.log(data)
+    }
+
+    function setRoom(data) {
+        data.map((item) => {
+            const roomName = `<div class="active-room-name">${item.room_name}</div>`
+            const countUser = `<div class="active-room-user-count">(${item.room_user.length})</div>`
+            const div = `<div class="active-room">${roomName}${countUser}<div>`
+            $('#chatList').append(div)
+        })
+    }
+
+    function redirectCreateRoom() {
+        location.href = '/chat/createroom'
+    }
+</script>
+</body>
+</html>

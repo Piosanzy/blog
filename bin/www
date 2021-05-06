@@ -19,7 +19,65 @@ app.set('port', port);
  * Create HTTP server.
  */
 
-var server = http.createServer(app);
+var server = require('http').createServer(app);
+var io = require('socket.io')(server);
+
+var room = io.of('/room')
+io.on('connection', function (socket) {
+    // 접속한 클라이언트의 정보가 수신되면
+    socket.on('login',function (data) {
+        console.log('Client logged-in:\n name:' + data.user_name + '\n userid: ' + data.user_id);
+
+        // socket에 클라이언트 정보를 저장한다
+        socket.user_name = data.user_name;
+        socket.user_id = data.user_id;
+        socket.roomId = data.roomId
+        // socket.join(socket.roomId)
+        const _data = {
+            user_id: data.user_id,
+            user_name: data.user_name,
+        }
+        // 접속된 모든 클라이언트에게 메시지를 전송한다
+        io.emit('login', _data);
+
+    });
+
+    // 클라이언트로부터의 메시지가 수신되면
+    socket.on('chat', function (data) {
+        console.log('%s : Message from %s: %s', socket.roomId, socket.name, data.msg);
+
+        var msg = {
+            from: {
+                name: socket.name,
+                userid: socket.userid
+            },
+            msg: data.msg
+        };
+
+        // 메시지를 전송한 클라이언트를 제외한 모든 클라이언트에게 메시지를 전송한다
+        socket.to(socket.roomId).emit('chat', msg);
+
+        // 메시지를 전송한 클라이언트에게만 메시지를 전송한다
+        // socket.emit('s2c chat', msg);
+
+        // 접속된 모든 클라이언트에게 메시지를 전송한다
+        // io.emit('s2c chat', msg);
+
+        // 특정 클라이언트에게만 메시지를 전송한다
+        // io.to(id).emit('s2c chat', data);
+    });
+
+    // force client disconnect from server
+    socket.on('forceDisconnect', function () {
+        console.log('user disconnected: ' + socket.user_name);
+        socket.disconnect();
+    })
+
+    socket.on('disconnect', function () {
+        io.emit('disconnectSession',socket.user_id);
+        console.log('user disconnected: ' + socket.user_name);
+    });
+});
 
 /**
  * Listen on provided port, on all network interfaces.
@@ -34,19 +92,19 @@ server.on('listening', onListening);
  */
 
 function normalizePort(val) {
-  var port = parseInt(val, 10);
+    var port = parseInt(val, 10);
 
-  if (isNaN(port)) {
-    // named pipe
-    return val;
-  }
+    if (isNaN(port)) {
+        // named pipe
+        return val;
+    }
 
-  if (port >= 0) {
-    // port number
-    return port;
-  }
+    if (port >= 0) {
+        // port number
+        return port;
+    }
 
-  return false;
+    return false;
 }
 
 /**
@@ -54,27 +112,27 @@ function normalizePort(val) {
  */
 
 function onError(error) {
-  if (error.syscall !== 'listen') {
-    throw error;
-  }
+    if (error.syscall !== 'listen') {
+        throw error;
+    }
 
-  var bind = typeof port === 'string'
-    ? 'Pipe ' + port
-    : 'Port ' + port;
+    var bind = typeof port === 'string'
+        ? 'Pipe ' + port
+        : 'Port ' + port;
 
-  // handle specific listen errors with friendly messages
-  switch (error.code) {
-    case 'EACCES':
-      console.error(bind + ' requires elevated privileges');
-      process.exit(1);
-      break;
-    case 'EADDRINUSE':
-      console.error(bind + ' is already in use');
-      process.exit(1);
-      break;
-    default:
-      throw error;
-  }
+    // handle specific listen errors with friendly messages
+    switch (error.code) {
+        case 'EACCES':
+            console.error(bind + ' requires elevated privileges');
+            process.exit(1);
+            break;
+        case 'EADDRINUSE':
+            console.error(bind + ' is already in use');
+            process.exit(1);
+            break;
+        default:
+            throw error;
+    }
 }
 
 /**
@@ -82,9 +140,9 @@ function onError(error) {
  */
 
 function onListening() {
-  var addr = server.address();
-  var bind = typeof addr === 'string'
-    ? 'pipe ' + addr
-    : 'port ' + addr.port;
-  debug('Listening on ' + bind);
+    var addr = server.address();
+    var bind = typeof addr === 'string'
+        ? 'pipe ' + addr
+        : 'port ' + addr.port;
+    debug('Listening on ' + bind);
 }

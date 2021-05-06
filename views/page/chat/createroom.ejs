@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<% include ../../layout/head.ejs %>
+<body>
+<div class="app">
+    <div class="page-container">
+        <div class="create-room">
+            <div class="room-name-box">
+                <label class="room-name-label" for="roomName">Room Name</label>
+                <input class="form-control room-name-input" type="text" placeholder="방 이름" id="roomName">
+            </div>
+            <div class="add-room" onclick="createRoom()">Create Room</div>
+        </div>
+    </div>
+</div>
+<% include ../../layout/scripts.ejs %>
+<script>
+    async function createRoom() {
+        const roomName = $("#roomName").val()
+        const body = {
+            roomName:roomName,
+            user_id:"<%= _id %>",
+            user_name:"<%= name %>",
+        }
+        const data = await $.post('/api/chat/create',body);
+        console.log("asdsadada",data)
+        location.href = '/chat';
+    }
+</script>
+</body>
+</html>

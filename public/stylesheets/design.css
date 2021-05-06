@@ -82,6 +82,11 @@ body {
     background-color: #178520;
 
 }
+.chatButton{
+    width: 30px;
+    height: 30px;
+    background-image: url("../images/chat.svg");
+}
 
 .register-a {
     border-radius: 5px;
@@ -117,6 +122,123 @@ body {
     height: 100%;
     overflow: auto;
     padding: 90px 90px 0 90px;
+}
+
+.create-room{
+    width: 100%;
+    height: 90%;
+    overflow: auto;
+    border: 1px solid black;
+}
+
+.room-name-box{
+    margin: 30px;
+}
+
+.room-name-label{
+    display: block;
+    font-size: 20px;
+    color: #777777;
+}
+
+.form-control.room-name-input{
+    display: block;
+    height: 50px;
+}
+
+.chatting-room-list {
+    width: 100%;
+    height: 90%;
+    overflow: auto;
+    border: 1px solid black;
+}
+
+.chatting-list-title{
+    width: 100%;
+    height: 100px;
+    background: #f0f0f0;
+    text-align: center;
+    font-size: 30px;
+    padding-top: 20px;
+}
+
+.chatting-list-body{
+    width: 100%;
+    height: calc(100% - 100px);
+    background: #dddddd;
+}
+
+.room-list{
+    width: calc(100% - 300px);
+    height: 100%;
+    background: #ffffff;
+    overflow: auto;
+}
+
+.online-user{
+    width: 100%;
+    height: 50px;
+    border-bottom: 1px solid #DDDDDD;
+    box-shadow: 5px 5px 10px 0 rgba(159, 159, 159, 0.5);
+}
+
+.online-user-name{
+    font-size: 25px;
+    color: #1a1a1a;
+    margin-left: 30px;
+    display: flex;
+
+}
+
+.online-check{
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: #0dd90d;
+    margin-top: 12px;
+    margin-right: 10px;
+}
+
+.active-room{
+    width: 100%;
+    height: 100px;
+    border-bottom: 1px solid rgba(212, 212, 212, 1);
+    box-shadow: 5px 5px 10px 0 rgba(212, 212, 212, 0.5);
+    margin-bottom: 30px;
+    display: flex;
+}
+
+.active-room-name{
+    font-size: 30px;
+    margin: 10px 0 0 30px;
+}
+
+.add-room{
+    width: 70%;
+    height: 50px;
+    border: 1px solid rgba(212, 212, 212, 1);
+    margin: 20px auto 20px;
+    text-align: center;
+    font-size: 20px;
+    color: #969696;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 5px 5px 10px 0 rgba(212, 212, 212, 0.5);
+
+}
+
+.add-room:hover{
+    border: 2px solid rgb(52, 79, 226);
+    font-weight: bold;
+    color: #1a1a1a;
+    cursor: pointer;
+}
+
+.online-user-list{
+    width: 300px;
+    height: 100%;
+    background: #cccccc;
+    float: right;
 }
 
 .user-profile {
