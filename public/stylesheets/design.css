@@ -124,6 +124,82 @@ body {
     padding: 90px 90px 0 90px;
 }
 
+.user-join{
+    width: 100%;
+    background-color: rgba(30,30,30,0.2);
+    height: 25px;
+    margin: 10px 0 10px 0;
+    text-align: center;
+}
+
+.user-join-name{
+    color: #555555;
+}
+
+.user-chat-message{
+    background-color: #ffffff;
+    width: auto;
+    max-width: 300px;
+    white-space: normal;
+    word-break: break-all;
+    height: auto;
+    padding: 10px;
+    display:inline-block;
+    border-radius: 0 10px 10px 10px;
+}
+
+.user-chat-name{
+    color: #555555;
+}
+
+.user-chat{
+    margin: 10px 0 10px 30px;
+}
+
+.chatting-area{
+    width: 50%;
+    margin: 0 auto;
+    height: 95%;
+    border-radius: 30px;
+    overflow: auto;
+}
+.chatting-room-header{
+    width: 100%;
+    height: 50px;
+    padding: 10px;
+    background-color: #a881cb;
+    box-shadow: 5px 5px 10px 0 rgba(159, 159, 159, 0.5);
+}
+
+.chatting-message-input{
+    margin-top: 30px;
+    width: 70%;
+    height: 70px;
+    border: none;
+    border-radius: 5px;
+    padding-left: 30px;
+}
+.chatting-message-input:focus{
+    border: none;
+    border-inline:none;
+    outline: none;
+}
+
+.chatting-room-body{
+    width: 100%;
+    padding: 10px;
+    height: calc(100% - 200px);
+    background-color: #b69acf;
+    overflow: auto;
+}
+
+.chatting-room-footer{
+    width: 100%;
+    padding: 10px;
+    height: 150px;
+    background-color: #cacaca;
+}
+
 .create-room{
     width: 100%;
     height: 90%;
@@ -206,6 +282,11 @@ body {
     box-shadow: 5px 5px 10px 0 rgba(212, 212, 212, 0.5);
     margin-bottom: 30px;
     display: flex;
+    cursor: pointer;
+}
+
+.active-room:hover{
+    border: 1px solid #226ede;
 }
 
 .active-room-name{

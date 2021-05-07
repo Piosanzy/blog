@@ -12,6 +12,10 @@ router.get('/createroom', authMiddleware, function (req, res, next) {
     res.render('page/chat/createroom',req.decoded);
 });
 
+router.get('/room/:room_id', authMiddleware, function (req, res, next) {
+    const roomId = req.params.room_id;
+    res.render('page/chat/roomChatting', {data:req.decoded,roomId:roomId});
+});
 
 
 

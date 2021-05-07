@@ -27,9 +27,15 @@ roomSchema.statics.getRoomList = function (){
     return this.find({}).exec()
 }
 
+roomSchema.statics.getRoomInfo = function (_id){
+    return this.findOne({
+        _id:_id
+    }).exec()
+}
+
 roomSchema.statics.joinRoom = function (_id,room_user) {
 
-    return this.update({_id:_id},{$push:{room_user:room_user}})
+    return this.updateOne({_id:_id},{$push:{room_user:room_user}})
 }
 
 module.exports = mongoose.model('Room',roomSchema)

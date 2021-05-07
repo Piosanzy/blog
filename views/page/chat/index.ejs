@@ -72,11 +72,15 @@
         console.log(data)
     }
 
+    function linkRoom(_id) {
+        location.href = `/chat/room/${_id}`
+    }
+
     function setRoom(data) {
         data.map((item) => {
             const roomName = `<div class="active-room-name">${item.room_name}</div>`
             const countUser = `<div class="active-room-user-count">(${item.room_user.length})</div>`
-            const div = `<div class="active-room">${roomName}${countUser}<div>`
+            const div = `<div class="active-room" onclick="linkRoom('${item._id}')">${roomName}${countUser}<div>`
             $('#chatList').append(div)
         })
     }

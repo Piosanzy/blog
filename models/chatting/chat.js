@@ -17,7 +17,9 @@ chatSchema.statics.create = function (room_id, user_id, user_name, answer) {
     return room.save()
 }
 
-
+chatSchema.statics.findRoomChat = function (room_id) {
+    return this.find({room_id}).sort({sendAt: -1}).limit(20).exec()
+}
 
 
 module.exports = mongoose.model('Chat', chatSchema);

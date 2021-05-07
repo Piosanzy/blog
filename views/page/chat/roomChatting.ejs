@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<% include ../../layout/head.ejs %>
+<body>
+<div class="app">
+    <div class="page-container">
+        <div class="chatting-area">
+            <div class="chatting-room-header">
+                <h3 id="roomName"></h3>
+            </div>
+            <div class="chatting-room-body" id="chat">
+            </div>
+            <div class="chatting-room-footer">
+                <form>
+                    <input type="text" class="chatting-message-input" id="msg" placeholder="Message">
+                    <button type="submit" class="btn chatting-message-button">Send</button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+<% include ../../layout/scripts.ejs %>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    const $chat = $("#chat");
+    const $msg = $("#msg");
+    const $roomName = $("#roomName");
+    $(document).ready(async function () {
+        const roomData = await $.get(`/api/chat/room/<%= roomId %>`);
+        const chattingData = await $.get(`/api/chat/chatting/log/<%= roomId %>`)
+        $roomName.text(roomData.room_name)
+        chattingData.map((item)=>{
+            const userText = `<div class="user-chat-message">${item.answer}</div>`
+            const userName = `<div class="user-chat-name">${item.user_name}</div>`
+            const div = `<div class="user-chat">${userName}${userText}</div>`
+            $chat.prepend(div);
+            $chat.scrollTop($chat[0].scrollHeight);
+        })
+    })
+    $(function () {
+        // 지정 namespace로 접속한다
+        var chat = io('/chat/room');
+
+        chat.emit('join', {
+            room: "<%= roomId %>",
+            user_id: "<%= data._id %>",
+            user_name: "<%= data.name %>",
+        })
+
+        $("form").submit(function (e) {
+            e.preventDefault();
+            // 서버로 자신의 정보를 전송한다.
+            chat.emit("chat", {
+                room: "<%= roomId %>",
+                user_id: "<%= data._id %>",
+                user_name: "<%= data.name %>",
+                answer: $msg.val()
+            });
+
+            const data = {
+                room_id: "<%= roomId %>",
+                user_id: "<%= data._id %>",
+                user_name: "<%= data.name %>",
+                answer: $msg.val()
+            }
+            $.post('/api/chat/chatting/init', data)
+            $msg.val('')
+        });
+
+        chat.on("join", function (data) {
+            const userName = `<div class="user-join-name">${data}님이 접속 하였습니다.</div>`
+            const div = `<div class="user-join">${userName}</div>`
+            $chat.append(div);
+        })
+
+        // 서버로부터의 메시지가 수신되면
+        chat.on("chat", function (data) {
+            const userText = `<div class="user-chat-message">${data.answer}</div>`
+            const userName = `<div class="user-chat-name">${data.user_name}</div>`
+            const div = `<div class="user-chat">${userName}${userText}</div>`
+            $chat.append(div);
+            $chat.scrollTop($chat[0].scrollHeight);
+        });
+    });
+</script>
+</body>
+</html>
